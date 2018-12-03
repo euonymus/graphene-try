@@ -1,3 +1,4 @@
+# graphql-python Tutorial:  https://www.howtographql.com/graphql-python/0-introduction/
 import graphene
 import django_filters
 from graphene_django import DjangoObjectType
@@ -30,7 +31,6 @@ class VoteNode(DjangoObjectType):
 class RelayQuery(graphene.ObjectType):
     relay_link = graphene.relay.Node.Field(LinkNode)
     relay_links = DjangoFilterConnectionField(LinkNode, filterset_class=LinkFilter)
-
 
 
 
