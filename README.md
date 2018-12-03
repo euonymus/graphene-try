@@ -28,10 +28,10 @@ $ pip install django==2.0.2 graphene==2.0.1 graphene-django==2.0.0 django-filter
 # environment for local development
 $ git clone {this repository}
 $ cd {reposity path}
+$ source venv/bin/activate
 $ pip install -r requirements.txt
 
 # 
-$ source venv/bin/activate
 $ python manage.py makemigrations
 $ python manage.py migrate
 ```
