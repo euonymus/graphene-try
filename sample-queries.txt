@@ -1,0 +1,65 @@
+# query {
+#   links(search:"Jonatas", first:3) {
+#     id
+#     url
+#     description
+#   }
+# }
+
+# query {
+#   relayLinks(first:2, after:"YXJyYXljb25uZWN0aW9uOjE=") {
+# 		edges {
+#       node {
+#         id
+#         url
+#         description
+#         votes {
+#           edges {
+#             node {
+#               id
+#               user {
+#                 id
+#               }
+#             }
+#           }
+#         }
+#       }
+#     }
+#     pageInfo {
+#       startCursor
+#       endCursor
+#     }
+#   }
+# }
+
+query {
+  relayLinks(url: "http", first: 2, after: "YXJyYXljb25uZWN0aW9uOjE=") {
+    edges {
+      node {
+        id
+        url
+        description
+        postedBy {
+          username
+        }
+      }
+    }
+    pageInfo {
+      startCursor
+      endCursor
+    }
+  }
+}
+
+# mutation {
+# 	relayCreateLink(input: {
+#     url: "http://deployeveryday.com",
+#     description: "Author's Blog"
+#   }) {
+#     link {
+#       id
+#       url
+#       description
+#     }
+#   }
+# }
