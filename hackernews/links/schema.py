@@ -25,6 +25,9 @@ class Query(graphene.ObjectType):
         skip=graphene.Int(),
         orderBy=graphene.String(),
     )
+    total_count = graphene.Int(
+        search=graphene.String(),
+    )
     votes = graphene.List(VoteType)
 
     # Use them to slice the Django queryset
@@ -50,6 +53,19 @@ class Query(graphene.ObjectType):
             qs = qs[:first]
 
         return qs
+
+    def resolve_total_count(self, info, search=None, **kwargs):
+        # The value sent with the search parameter will be in the args variable
+        qs = Link.objects.all()
+
+        if search:
+            filter = (
+                Q(url__icontains=search) |
+                Q(description__icontains=search)
+            )
+            qs = qs.filter(filter)
+
+        return qs.count()
 
     def resolve_votes(self, info, **kwargs):
         return Vote.objects.all()
