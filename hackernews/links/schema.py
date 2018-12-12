@@ -23,13 +23,18 @@ class Query(graphene.ObjectType):
         search=graphene.String(),
         first=graphene.Int(),
         skip=graphene.Int(),
+        orderBy=graphene.String(),
     )
     votes = graphene.List(VoteType)
 
     # Use them to slice the Django queryset
     def resolve_links(self, info, search=None, first=None, skip=None, **kwargs):
         # The value sent with the search parameter will be in the args variable
-        qs = Link.objects.all()
+        orderBy = kwargs.get("orderBy", None)
+        if orderBy:
+            qs = Link.objects.order_by(orderBy).reverse()
+        else:
+            qs = Link.objects.all()
 
         if search:
             filter = (
@@ -55,6 +60,7 @@ class CreateLink(graphene.Mutation):
     url = graphene.String()
     description = graphene.String()
     posted_by = graphene.Field(UserType)
+    created_at = graphene.String()
 
     class Arguments:
         url = graphene.String()
@@ -75,6 +81,7 @@ class CreateLink(graphene.Mutation):
             url=link.url,
             description=link.description,
             posted_by=link.posted_by,
+            created_at=link.created_at,
         )
 
 class CreateVote(graphene.Mutation):
